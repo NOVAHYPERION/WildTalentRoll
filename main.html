@@ -1,0 +1,74 @@
+<html>
+<head>
+    <title>Wild Talents Roller</title>
+    <link href="./templates/Whatiscss.css" rel="stylesheet">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+     <script src="../templates/jquery.slim.min.js"></script>
+    <script src="../templates/popper.min.js"></script>
+    <script src="../templates/bootstrap.min.js"></script>
+    <script src = "./PWAstuff/site.js"> </script>
+    <link rel="stylesheet" href="../templates/bootstrap.min.css">
+    <script>
+        function roller(rollThese){
+            var dicevals = []
+            for(var i = 0; i < rollThese; i++)
+                {
+                    dicevals.push(Math.floor(1+Math.random()*10,11))
+                }
+            return dicevals
+            }
+        function rollThemBones(){
+            var dicetime = document.getElementById("dice")
+            var HD = parseInt(dicetime.elements[1].value)
+            var RD = dicetime.elements[2].value
+            var regD = parseInt(RD)
+            var OutVal = isNaN(regD) ? "Please enter an Integer: Regular Dice" : 
+            Number.isNaN(HD)  ? "Please enter an Integer: Hard Dice" : 
+            regD > 10 ? "Error: You may only roll 10 regular dice per roll." : roller(regD)
+            var Text= ""
+            if(typeof OutVal == "object"){
+                for(var i = 0; i < HD; i++ ){
+                    OutVal.push(10)
+                }
+                var count = [0,0,0,0,0,0,0,0,0,0]
+                for(var d = 0; d < OutVal.length; d++){
+                    count[OutVal[d]-1] += 1
+                }
+                for(var e = 0; e < count.length; e++){
+                    if(count[e] > 1)
+                        {
+                            var dr = (e+1)
+                            Text += "(W of " + count[e].toString() +"|" 
+                            Text += " |H of " +dr.toString()
+                            Text += "'s)<br> "
+                        }
+                }
+            }
+            document.getElementById("History").innerHTML += "<br>!!!!!!!!!!!!!!!!!!!!!!!!!!!<br>"+ OutVal + "<br>" + Text + "<br>"
+            document.getElementById("RandomNum").innerHTML = OutVal + "<br>" + Text + "<br>"
+        }
+    
+    
+    </script>
+</head>
+<body>
+    <form id = "dice">
+        <fieldset>
+    <legend>Types of Dice</legend>
+        Hard Dice: <input type="text" id="hd"><br>
+        Regular Dice:<input type="text" id = "rd"><br>
+        </fieldset>
+    <button type = "button" onclick="rollThemBones()">Submit</button>
+    </form>
+    <div class = "container">
+        <div class = "row">
+            <div class = "col-sm">
+                <p id="RandomNum">!!!!!!!!!This is where rolls are!!!!!!!!!<br></p>
+            </div>
+            <div class = "col-sm">
+                <p id="History">!!!!!!!!!History Rolls!!!!!!!!!<br></p>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
